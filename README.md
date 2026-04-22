@@ -34,9 +34,3 @@ uvicorn app.main:app --reload
 
 Сервер доступний на `http://127.0.0.1:8000`
 
-## Технології
-
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [Detoxify](https://github.com/unitaryai/detoxify)
-- [Hugging Face Transformers](https://huggingface.co/docs/transformers)
-- [SQLite](https://www.sqlite.org/)
