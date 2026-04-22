@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Моделі{% endblock %}
+
+{% block content %}
+<h2>Вибери модель</h2>
+<form action="#" method="post">
+
+    <label>Текст:<br>
+        <textarea name="text" rows="4" cols="50" required></textarea>
+    </label><br><br>
+
+    <label>Модель:<br>
+        <select name="model">
+            <option value="sentiment">Sentiment</option>
+            <option value="original">Original</option>
+            <option value="unbiased">Unbiased</option>
+            <option value="multilingual">Multilingual</option>
+        </select>
+    </label><br><br>
+
+    <button type="submit">Відправити</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+document.querySelector("form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const text = document.querySelector("textarea").value;
+    const model = document.querySelector("select").value;
+
+    const response = await fetch(`/api/${model}`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({text: text})
+    });
+
+    const data = await response.json();
+    const rows = Object.entries(data).map(
+        ([key, val]) => `<tr><td>${key}</td><td>${(val * 100).toFixed(2)}%</td></tr>`
+    ).join("");
+
+    document.getElementById("result").innerHTML = `
+        <div class="result-box">
+            <h3>Результат:</h3>
+            <table style="width:100%; text-align:left; border-collapse:collapse;">
+                <tr><th>Категорія</th><th>Score</th></tr>
+                ${rows}
+            </table>
+        </div>`;
+});
+</script>
+
+{% endblock %}
